@@ -1,0 +1,24 @@
+{
+  "name": "nalu-coffee-space",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "coffee",
+    "nalu",
+    "cafe",
+    "website"
+  ],
+  "author": "Nalu Coffee",
+  "license": "ISC",
+  "description": "Nalu Coffee Space - Profile Website",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "tailwindcss": "^4.1.18",
+    "vite": "^7.3.1"
+  }
+}

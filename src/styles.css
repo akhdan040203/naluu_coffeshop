@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+/* ===== CUSTOM THEME CONFIGURATION ===== */
+@theme {
+    /* Colors */
+    --color-primary: #064E3B;
+    --color-deep-charcoal: #111827;
+    --color-background-light: #F9FAFB;
+
+    /* Border Radius */
+    --radius: 12px;
+}
+
+/* ===== BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F9FAFB;
+    color: #111827;
+    line-height: 1.6;
+}
+
+/* ===== CUSTOM UTILITY CLASSES ===== */
+.italic-bold {
+    font-style: italic;
+    font-weight: 900;
+}
+
+.font-display {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ===== WAVY PATTERN ===== */
+.wavy-pattern {
+    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD-b0oC4soc0n2ss8PzPsZt1bbTH2nVYVdoBRbEaiS073HQY9H3_vQ3lz2iuu7DGHarjoaBq7gEIgT25qM6J3LPkd0WLusVwxmV_idZb_OTdwAKTCyIzmXblfF0jWgDVpKRQ6xdXLARW8ftgFWSHtZ2MI3fQrnBrcXl6l9QO_bi15mlB4H-YR0plFau8HS5e8FfRhmNOkNwH0InD7pdqsTPAqACxoEUq92FhnwbmEYEJn_yTLKiDsk7eol6SiR1eHSg7m0wa9M8OjI');
+    background-repeat: repeat-x;
+}
+
+/* ===== GRADIENT OVERLAY ===== */
+.custom-gradient-overlay {
+    background: linear-gradient(0deg, rgba(17, 24, 39, 0.9) 0%, rgba(17, 24, 39, 0.3) 100%);
+}
+
+/* ===== HIDE SCROLLBAR ===== */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F9FAFB;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #064E3B;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #065F46;
+}
+
+/* ===== SELECTION COLOR ===== */
+::selection {
+    background: #064E3B;
+    color: white;
+}
+
+/* ===== BUTTON TRANSITIONS ===== */
+button,
+a {
+    transition: all 0.3s ease;
+}
+
+/* ===== CARD HOVER EFFECTS ===== */
+.card-hover {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== IMAGE HOVER ZOOM ===== */
+.img-zoom {
+    transition: transform 0.7s ease;
+}
+
+.img-zoom:hover {
+    transform: scale(1.05);
+}
+
+/* ===== GRADIENT TEXT ===== */
+.gradient-text {
+    background: linear-gradient(135deg, #064E3B, #065F46);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ===== GLASS EFFECT ===== */
+.glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ===== MOBILE MENU ===== */
+.mobile-menu {
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.mobile-menu.active {
+    transform: translateX(0);
+}
+
+/* ===== FOCUS STYLES ===== */
+input:focus,
+button:focus {
+    outline: none;
+}
+
+input:focus {
+    box-shadow: 0 0 0 3px rgba(6, 78, 59, 0.2);
+}

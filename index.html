@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nalu Coffee | Experience the Wave of Flavor</title>
+    <meta name="description"
+        content="Experience the finest coffee craft in our urban oasis. A sophisticated space designed for relaxation, connection, and inspiration.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#064E3B",
+                        "deep-charcoal": "#111827",
+                        "background-light": "#F9FAFB",
+                    },
+                    fontFamily: {
+                        display: ["Open Sans", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        .italic-bold {
+            font-style: italic;
+            font-weight: 900;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-marquee {
+            animation: marquee 30s linear infinite;
+        }
+
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .ghost-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            white-space: nowrap;
+            font-size: clamp(6rem, 18vw, 14rem);
+            font-weight: 900;
+            font-style: italic;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.12;
+            /* Lebih jelas dari sebelumnya */
+            -webkit-text-stroke: 1.5px #064E3B;
+            color: transparent;
+            user-select: none;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #F9FAFB;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #064E3B;
+            border-radius: 4px;
+        }
+
+        ::selection {
+            background: #064E3B;
+            color: white;
+        }
+
+        /* Prevent flash of unstyled content/stuck animations */
+        .gsap-reveal {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light text-deep-charcoal font-display">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                    <span class="text-white font-black text-xl italic">N</span>
+                </div>
+                <span class="text-xl font-black italic tracking-tighter text-deep-charcoal">NALU</span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about" class="text-sm font-semibold hover:text-primary transition-colors">About Us</a>
+                <a href="#menu" class="text-sm font-semibold hover:text-primary transition-colors">Menu</a>
+                <a href="#location" class="text-sm font-semibold hover:text-primary transition-colors">Location</a>
+                <a href="#food" class="text-sm font-semibold hover:text-primary transition-colors">Food</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-deep-charcoal">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-white shadow-2xl z-50 md:hidden">
+        <div class="p-6">
+            <button id="mobile-menu-close" class="absolute top-6 right-6">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="mt-16 flex flex-col gap-6">
+                <a href="#about" class="text-xl font-bold">About Us</a>
+                <a href="#menu" class="text-xl font-bold">Menu</a>
+                <a href="#location" class="text-xl font-bold">Location</a>
+                <a href="#food" class="text-xl font-bold">Food</a>
+                <a href="#" class="bg-primary text-white px-6 py-3 rounded-full font-bold text-center mt-4">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative h-[90vh] flex items-center justify-center pt-20 overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxozDiwPtyy727Q-iuN_HCZBm6MYum-WlSgh6jvZ0DvSDHVcxC-6eUFI42yRk385ociA4HQC8Yt6dERNsm8Q5fiF-xxIYyiIaF1HNolrMrKJOjNWzVjHF9pEJt2W21uuTvt850LAkXmW0IM-dSOHONYdWonu2Ah1h0AwN8Vt6GLw5Mz-vT99eUpudZ56WBA9oobyCOxGP4PljOYpwL2lVutLFFu87o-cYjMM4IHaRwFHa1EgloCiKH1gqcEbysmCg75dgLDpRKJ4I"
+            alt="Nalu Coffee Interior" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-deep-charcoal/70"></div>
+
+        <div
+            class="ghost-text hero-ghost !opacity-5 !text-[25rem] !text-white !-webkit-text-stroke-0 pointer-events-none">
+            NALU
+        </div>
+
+        <div class="relative z-10 text-center px-6 max-w-4xl -mt-12 hero-content gsap-reveal">
+            <h1 class="text-4xl md:text-6xl italic-bold text-white mb-6 leading-tight">
+                Experience the <br>Wave of Flavor, <br>
+                <span
+                    class="inline-block bg-white text-primary px-5 py-0.5 mt-2 rotate-[-1deg] text-3xl md:text-5xl shadow-xl">Nalu
+                    Coffee.</span>
+            </h1>
+            <p class="text-gray-200 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+                Experience the finest coffee craft in our urban oasis. A sophisticated space designed for relaxation,
+                connection, and inspiration.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 cta-btns gsap-reveal">
+                <button
+                    class="bg-primary text-white px-10 py-4 rounded-full font-black italic text-lg hover:scale-105 transition-transform shadow-xl shadow-black/20">
+                    ORDER NOW
+                </button>
+                <button
+                    class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-4 rounded-full font-black italic text-lg hover:bg-white/20 transition-all">
+                    OUR STORY
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Banner -->
+    <div class="w-full bg-primary h-24 relative flex items-center overflow-hidden border-y border-white/10">
+        <div class="whitespace-nowrap flex gsap-marquee">
+            <div class="flex items-center gap-12 px-6">
+                <span class="italic-bold text-2xl text-orange-500">NALU COFFEE AND SPACE</span>
+                <span class="material-symbols-outlined text-orange-500 text-3xl">star</span>
+                <span class="italic-bold text-2xl text-orange-500">STAY BREWED</span>
+                <span class="material-symbols-outlined text-orange-500 text-3xl">local_cafe</span>
+                <span class="italic-bold text-2xl text-orange-500">URBAN VIBES</span>
+                <span class="material-symbols-outlined text-orange-500 text-3xl">auto_awesome</span>
+            </div>
+            <div class="flex items-center gap-12 px-6">
+                <span class="italic-bold text-2xl text-orange-500">NALU COFFEE</span>
+                <span class="material-symbols-outlined text-orange-500 text-3xl">star</span>
+                <span class="italic-bold text-2xl text-orange-500">STAY BREWED</span>
+                <span class="material-symbols-outlined text-orange-500 text-3xl">local_cafe</span>
+                <span class="italic-bold text-2xl text-orange-500">URBAN VIBES</span>
+                <span class="material-symbols-outlined text-orange-500 text-3xl">auto_awesome</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signature Brews Section -->
+    <section id="menu" class="py-24 px-6 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div
+                class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 relative section-header gsap-reveal">
+                <div class="ghost-text !top-1/2">COFFEE COFFEE COFFEE COFFEE</div>
+                <div class="space-y-3 relative z-10">
+                    <span class="text-sm font-bold tracking-[0.3em] uppercase text-primary">Nalu Selection</span>
+                    <h2 class="text-5xl md:text-6xl italic-bold text-primary">Coffee <span
+                            class="text-orange-500">Menu</span></h2>
+                    <p class="text-gray-500 max-w-md text-lg">Curated blends and artisanal waves for the modern urban
+                        dweller.</p>
+                </div>
+                <button
+                    class="relative z-10 border-2 border-deep-charcoal text-deep-charcoal px-10 py-4 rounded-full font-bold hover:bg-deep-charcoal hover:text-white transition-all">
+                    View All Menu
+                </button>
+            </div>
+
+            <!-- Product Cards -->
+            <div class="flex gap-10 overflow-x-auto hide-scrollbar pb-12 px-2 cards-container gsap-reveal-stagger">
+                <!-- Card 1 - Café Nomad -->
+                <div
+                    class="min-w-[400px] bg-white rounded-[50px] overflow-hidden group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] gsap-reveal">
+                    <div class="h-[500px] overflow-hidden relative">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0_UPPqwmif06kqF-ZuV6ZfqZnDb7twpqz0H8XzQNs39Bf-4JbN4jQiuhqdscKzaQ_Lvb19cu97o4FgjrPHMiucpPlIoipaanyyU35f8kUNaecUjJP6PWFVffnOKG14YiLABJ27QOJ9LNQrMlhI6h9SYsgD2oXPxOMrU4cn-_2AjID6v34MSVzmR9Fbb2-uzPRd7nbsu-15dXam5WuaGUeHhsDWjIj64KK-u2_5Ml2Pvs7s5MaW5r9T5wzOtj3LTbF2-tibJgFFI8"
+                            alt="Cold Brew"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute top-8 left-8 bg-[#043327] text-white px-6 py-2 rounded-full font-bold text-xs italic tracking-widest shadow-lg">
+                            BEST SELLER
+                        </div>
+                    </div>
+                    <div class="p-10 pt-12">
+                        <h3 class="text-4xl italic-bold text-primary">Café Nomad</h3>
+                    </div>
+                </div>
+
+                <!-- Card 2 - Nalu Breeze -->
+                <div
+                    class="min-w-[400px] bg-white rounded-[50px] overflow-hidden group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] gsap-reveal">
+                    <div class="h-[500px] overflow-hidden relative">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRhjGqPNZUvUKszqpUX08MiKRvITlEUPgfxViBbiPtDkEwjrg2IkwFltcFoBqlcMTMMvlVfjj3_NMfc1EE3L4wPtI6zgl4TIBg86YDB_Ww29CJ6e6kAAXPArtHWpuU3ghcGLop4BT3uDYWgC-rxjc8ic_KB3B3jc68ZA0Xmo2QQCi_2zl78KN3G7s1Gs5jooqN-EYjnlraiyrdxz836k07emObC7BpGBhVemcsevFEPAy1CJXh6gt48BW-jl2XHKFNprA0QdWXQ1U"
+                            alt="Lemon Soda"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-10 pt-12">
+                        <h3 class="text-4xl italic-bold text-primary">Nalu Breeze</h3>
+                    </div>
+                </div>
+
+                <!-- Card 3 - Velvet Brew -->
+                <div
+                    class="min-w-[400px] bg-white rounded-[50px] overflow-hidden group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] gsap-reveal">
+                    <div class="h-[500px] overflow-hidden relative">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1V_rvvJ3sFPsiKrzdRQA6RIDJnBP6LRlKy1XSJJ6U9sTdNY1G27tAB6ZBo0rLa95wX3Hg0QQZNqllIk1SeqeAbJ5eKMJjqpoL5qlAi-37bUNzZFuAdxxU8CJjWUCG_AQbdarLnu4Gy_l5C3tMpHr0yvUKDFJwaJAKOZ1VMMXQ4FvomoibeCvDBFgisMrmnGkEAZTDahNPCt8XergRBiLcXe7kW5lkpPVXLzVZ3LW0VvEnuoD1YHPUXN502MOd6PiOy7zcjH5CaNY"
+                            alt="Velvet Latte"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-10 pt-12">
+                        <h3 class="text-4xl italic-bold text-primary">Velvet Brew</h3>
+                    </div>
+                </div>
+
+                <!-- Card 4 - Arctic Vanilla -->
+                <div
+                    class="min-w-[400px] bg-white rounded-[50px] overflow-hidden group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] gsap-reveal">
+                    <div class="h-[500px] overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?auto=format&fit=crop&q=80&w=1200"
+                            alt="Arctic Vanilla"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-10 pt-12">
+                        <h3 class="text-4xl italic-bold text-primary">Arctic Vanilla</h3>
+                    </div>
+                </div>
+
+                <!-- Card 5 - Midnight Mocha -->
+                <div
+                    class="min-w-[400px] bg-white rounded-[50px] overflow-hidden group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] gsap-reveal">
+                    <div class="h-[500px] overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1544787210-22db34570077?auto=format&fit=crop&q=80&w=1200"
+                            alt="Midnight Mocha"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-10 pt-12">
+                        <h3 class="text-4xl italic-bold text-primary">Midnight Mocha</h3>
+                    </div>
+                </div>
+
+                <!-- Card 6 - Sunrise Tonic -->
+                <div
+                    class="min-w-[400px] bg-white rounded-[50px] overflow-hidden group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] gsap-reveal">
+                    <div class="h-[500px] overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&q=80&w=1200"
+                            alt="Sunrise Tonic"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-10 pt-12">
+                        <h3 class="text-4xl italic-bold text-primary">Sunrise Tonic</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination Dots -->
+            <div class="flex justify-center gap-3 mt-8 mb-16">
+                <div class="w-12 h-2 bg-primary rounded-full"></div>
+                <div class="w-2 h-2 bg-gray-200 rounded-full"></div>
+                <div class="w-2 h-2 bg-gray-200 rounded-full"></div>
+                <div class="w-2 h-2 bg-gray-200 rounded-full"></div>
+                <div class="w-2 h-2 bg-gray-200 rounded-full"></div>
+                <div class="w-2 h-2 bg-gray-200 rounded-full"></div>
+            </div>
+
+            <!-- Additional Coffee List (Menu List) -->
+            <div
+                class="max-w-4xl mx-auto grid md:grid-cols-2 gap-x-20 gap-y-4 border-t border-gray-100 pt-16 gsap-reveal">
+                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                    <span class="text-xl font-bold text-primary">Espresso</span>
+                    <span class="text-xl font-black italic">$3</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                    <span class="text-xl font-bold text-primary">Americano</span>
+                    <span class="text-xl font-black italic">$4</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                    <span class="text-xl font-bold text-primary">Cappuccino</span>
+                    <span class="text-xl font-black italic">$5</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                    <span class="text-xl font-bold text-primary">Flat White</span>
+                    <span class="text-xl font-black italic">$5</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                    <span class="text-xl font-bold text-primary">Caramel Macchiato</span>
+                    <span class="text-xl font-black italic">$6</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                    <span class="text-xl font-bold text-primary">Mocha Latte</span>
+                    <span class="text-xl font-black italic">$6</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Food & Desserts Section -->
+    <section id="food" class="py-24 px-6 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto text-center mb-20 relative section-header gsap-reveal">
+            <div class="ghost-text !top-1/2">TASTE TASTE TASTE TASTE TASTE</div>
+            <span class="relative z-10 text-primary font-bold tracking-widest uppercase text-sm">Artisanal
+                Kitchen</span>
+            <h2 class="relative z-10 text-6xl italic-bold text-primary mt-2">Food & <span
+                    class="text-orange-500">Desserts</span></h2>
+        </div>
+
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 cards-container gsap-reveal-stagger">
+            <!-- Food 1 - Croissant -->
+            <div
+                class="bg-gray-50 rounded-[48px] p-10 flex flex-col items-center group border border-gray-100 hover:shadow-2xl transition-all duration-500 gsap-reveal">
+                <div
+                    class="bg-white rounded-3xl w-full aspect-square mb-8 flex items-center justify-center overflow-hidden shadow-inner uppercase font-black text-xs">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=1200"
+                        alt="Golden Croissant"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <h3 class="text-2xl italic-bold mb-3 text-center">Golden Croissant</h3>
+                <p class="text-gray-500 text-center mb-8">Buttery, flaky, and baked fresh every morning in our artisanal
+                    oven.</p>
+                <button
+                    class="w-full bg-deep-charcoal text-white py-4 rounded-full font-bold hover:bg-primary transition-all">
+                    Order Now — $5
+                </button>
+            </div>
+
+            <!-- Food 2 - Avocado Toast -->
+            <div
+                class="bg-gray-50 rounded-[48px] p-10 flex flex-col items-center group border border-gray-100 hover:shadow-2xl transition-all duration-500 gsap-reveal">
+                <div
+                    class="bg-white rounded-3xl w-full aspect-square mb-8 flex items-center justify-center overflow-hidden shadow-inner uppercase font-black text-xs">
+                    <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&q=80&w=1200"
+                        alt="Avocado Toast"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <h3 class="text-2xl italic-bold mb-3 text-center">Nalu Avocado Toast</h3>
+                <p class="text-gray-500 text-center mb-8">Sourdough bread topped with creamy avocado, poached egg, and
+                    chili flakes.</p>
+                <button
+                    class="w-full bg-deep-charcoal text-white py-4 rounded-full font-bold hover:bg-primary transition-all">
+                    Order Now — $12
+                </button>
+            </div>
+
+            <!-- Food 3 - Cheesecake -->
+            <div
+                class="bg-gray-50 rounded-[48px] p-10 flex flex-col items-center group border border-gray-100 hover:shadow-2xl transition-all duration-500 gsap-reveal">
+                <div
+                    class="bg-white rounded-3xl w-full aspect-square mb-8 flex items-center justify-center overflow-hidden shadow-inner uppercase font-black text-xs">
+                    <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&q=80&w=1200"
+                        alt="Velvet Cheesecake"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <h3 class="text-2xl italic-bold mb-3 text-center">Velvet Cheesecake</h3>
+                <p class="text-gray-500 text-center mb-8">Creamy baked cheesecake with a hint of vanilla and a buttery
+                    graham crust.</p>
+                <button
+                    class="w-full bg-deep-charcoal text-white py-4 rounded-full font-bold hover:bg-primary transition-all">
+                    Order Now — $8
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Brew Section -->
+    <section class="py-32 bg-primary/5 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 items-center gap-20">
+            <!-- Left Content -->
+            <div class="relative z-10 gsap-reveal">
+                <div class="ghost-text !top-12">DAILY DAILY DAILY DAILY</div>
+                <h2 class="relative z-10 text-7xl italic-bold mb-8 text-deep-charcoal leading-none">
+                    Nalu <br><span class="text-primary">Daily Brew</span>
+                </h2>
+                <p class="text-xl mb-10 leading-relaxed text-gray-700">
+                    Premium bottled coffee for those on the move. Hand-pressed daily using our signature house blend.
+                    Fresh, cold, and ready when you are.
+                </p>
+                <button
+                    class="bg-primary text-white px-12 py-5 rounded-full font-black italic text-xl mb-12 hover:bg-emerald-900 transition-all shadow-xl shadow-primary/20">
+                    ORDER DELIVERY
+                </button>
+
+                <!-- Platforms -->
+                <div class="space-y-6">
+                    <p class="font-bold text-xs uppercase tracking-[0.3em] text-primary">Available On Platforms</p>
+                    <div class="flex flex-wrap items-center gap-10">
+                        <img alt="GoFood" class="h-8 grayscale hover:grayscale-0 transition-all cursor-pointer"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNGLKIxcnGaJMR_L1bkEpjrth6qdok_lGx9tu5nt1zA8M9mgK0E9IgrNPOtXMyeYRfi3uw1ydA3K6hWC43Fi8yCJ_BLjuCw7UrBmnjIY4y6McK3hda75ynK_szw2CwqmTXyWEMGZYeAsbd99Lma8l0PM9wt2TmKPvwiA4SttzK3i1nIaclFDwN_oZL_6ZwFea_-quzJ_3NPKxjI2L6OxL6kUdKzA1vBMe3xZ5wCL4H_OAVdyZL_0GoXQ8yc2z0wGjmC0yDdlC2OW8">
+                        <img alt="ShopeeFood" class="h-8 grayscale hover:grayscale-0 transition-all cursor-pointer"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7rwBonYLCaTSUz2amP5e6cgRPE14ZK3V8I3r0iTlSffmSpBc1ax6PE8h-AyuQaaXXSvrPi8GB76vSck-u62HbEbONZCDFR-YGV6umZ1nfIoaLo3jMl5B_vRBxLq-K8yjIYZWIfoQJ68iWS5J42ki-GZaNSa-H-ZxvEvtE1YvOIXTFTj_OyUcf1KZVHH66xnet1B62VzvXivdiIMBAnPa3LFhZt1KtNH5rI-19ayi9qTg61s_-oNqBpDL9iFLNkfVQHiWRlUUGZcA">
+                        <img alt="GrabFood" class="h-8 grayscale hover:grayscale-0 transition-all cursor-pointer"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBz99GY0eombYdbpjw1zESFWOgznwR0uiQ7TrX6vxXMyJZx3-w5Z0Y4Jjl9nw6XXiVh_T-LvJRyPrstHGEWw4T4px7mE4opTpWdoLyN9tcSW0X9Z0w6tzsYq5NiSAgF3wUqx_118CENPT4ULxzkpUgZPfsdC6WUPuKBfbHsiqwAJFWxy_m6ziQ_QUeWxQTsj6L5Lllq9Tt-Qwqq-bzWPcDxX2Wj_A6zzL65HG6RvNE1jdRhux848KSlXOq-xmokFHeMFakxAP1hOPc">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content - Product Image -->
+            <div class="relative gsap-reveal">
+                <!-- Decorative Blob -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] opacity-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+                        <path fill="#064E3B"
+                            d="M44.7,-76.4C58.3,-69.2,70,-58.5,77.5,-45.8C85,-33.1,88.4,-18.5,88.4,-3.8C88.3,10.8,84.9,25.6,77.5,38.7C70.1,51.8,58.8,63.1,45.2,70.8C31.6,78.5,15.8,82.6,0.3,82.1C-15.3,81.6,-30.5,76.5,-43.8,68.6C-57,60.6,-68.3,49.8,-75.8,36.8C-83.3,23.8,-87,8.6,-86.3,-6.2C-85.6,-21.1,-80.6,-35.5,-71.9,-47.5C-63.1,-59.5,-50.7,-69.1,-37.1,-76.3C-23.5,-83.5,-8.7,-88.2,3.3,-93.2C15.3,-98.3,44.7,-76.4,44.7,-76.4Z"
+                            transform="translate(100 100)"></path>
+                    </svg>
+                </div>
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeTP_rJlYKP6fIgmXVKJTaJciHna0m-p8mbZkWC2738ZG1rpat6ZxoLursxEba9t785ywZJ0HaOshYZL7pup6rb2F3uK6sNiO1sm3dga-ucvW-Agp-fvjs89A6-JHW7VT3wzM-PZcsmGmYrzEf1EWl1ulen4G07FOTfKChKZ71s56SyRa-x5HhFwnTQKFRvzi0QXeykgGn05Kd7trtXw13DKjh2_8VAYr_z8k6b-NIWQ0wzD012RIRV1igXreFgufwh7Kirm4Jm6k"
+                    alt="Bottled Coffee"
+                    class="relative z-10 w-full max-w-md mx-auto rounded-[60px] rotate-6 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4)]">
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-24 px-6 bg-white">
+        <div
+            class="max-w-7xl mx-auto bg-primary rounded-[64px] p-10 md:p-20 flex flex-col lg:flex-row items-center gap-16 overflow-hidden relative shadow-[0_40px_80px_-15px_rgba(6,78,59,0.3)]">
+            <!-- Decorative Blob -->
+            <div class="absolute right-[-10%] top-[-20%] w-[500px] h-[500px] opacity-10 pointer-events-none text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+                    <path fill="currentColor"
+                        d="M38.1,-65.4C49.1,-58.5,57.7,-48.1,64.3,-36.5C70.9,-24.9,75.4,-12.5,75.8,0.2C76.1,12.9,72.4,25.8,65.6,37.1C58.8,48.4,48.9,58,37.3,64.8C25.7,71.5,12.8,75.4,-0.2,75.7C-13.3,76.1,-26.6,72.9,-38,66.1C-49.4,59.3,-59,48.8,-65.3,36.9C-71.6,25,-74.6,11.7,-74.2,-1.5C-73.8,-14.7,-70,-27.7,-62.4,-38.7C-54.8,-49.7,-43.3,-58.6,-31.2,-64.8C-19.1,-71,-6.4,-74.4,3.7,-80.7C13.8,-87.1,38.1,-65.4,38.1,-65.4Z"
+                        transform="translate(100 100)"></path>
+                </svg>
+            </div>
+
+            <!-- Left Content -->
+            <div class="flex-1 space-y-6 text-center lg:text-left z-10 gsap-reveal">
+                <div
+                    class="inline-block bg-white text-primary rounded-full px-8 py-3 mb-4 font-black italic tracking-widest shadow-xl">
+                    LIMITED OFFER
+                </div>
+                <h3 class="text-5xl md:text-6xl italic-bold leading-tight text-white">Join the <br>Nalu Inner Circle
+                </h3>
+                <p class="text-emerald-100/80 text-lg max-w-md mx-auto lg:mx-0">Get 20% OFF your first order and stay
+                    updated with exclusive events and seasonal drops.</p>
+            </div>
+
+            <!-- Right Content - Form -->
+            <div class="w-full lg:w-1/2 z-10">
+                <form id="newsletter-form"
+                    class="flex flex-col sm:flex-row gap-4 p-2 bg-white/10 backdrop-blur-md rounded-[40px]">
+                    <input type="email" placeholder="Enter your email address"
+                        class="flex-1 px-8 py-5 rounded-full border-none focus:ring-0 bg-white text-deep-charcoal placeholder:text-gray-400"
+                        required>
+                    <button type="submit"
+                        class="bg-deep-charcoal text-white px-12 py-5 rounded-full font-bold hover:bg-black transition-all shadow-lg">
+                        SUBSCRIBE
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Find Your Nalu Spot Section -->
+    <section id="location" class="py-24 bg-deep-charcoal text-white overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <!-- Section Header -->
+            <div class="flex flex-col lg:flex-row justify-between mb-16 gap-8 relative section-header gsap-reveal">
+                <div class="ghost-text !top-1/2 !left-0 !transform-none">LOCATION LOCATION LOCATION</div>
+                <div class="relative z-10">
+                    <span class="text-primary font-bold tracking-[0.4em] uppercase">#NaluWave</span>
+                    <h2 class="text-6xl md:text-7xl italic-bold mt-4 mb-6 leading-none">Find Your <br>Nalu Spot</h2>
+                    <p class="text-gray-400 text-xl max-w-sm">Elevated coffee experiences in your favorite urban
+                        corners.
+                    </p>
+                </div>
+
+                <!-- One Featured Location Card -->
+                <div
+                    class="relative z-10 lg:self-end p-8 md:p-10 border border-white/10 rounded-[40px] bg-white/5 backdrop-blur-xl lg:max-w-md">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined text-white">location_on</span>
+                        </div>
+                        <h4 class="text-3xl font-bold tracking-tight">Jakarta Selatan</h4>
+                    </div>
+                    <p class="text-emerald-50/60 text-xl leading-relaxed mb-6">
+                        Nalu Coffee - Kemang Loft<br>
+                        Jl. Raya Kemang No. 88, Bangka,<br>
+                        Mampang Prapatan.
+                    </p>
+                    <div class="flex flex-col gap-2 text-sm font-bold uppercase tracking-widest text-[#064E3B]">
+                        <span>Open Daily: 07:00 — 22:00</span>
+                        <a href="https://maps.google.com" target="_blank"
+                            class="flex items-center gap-2 mt-4 text-white hover:text-primary transition-colors">
+                            GET DIRECTIONS <span class="material-symbols-outlined text-sm">north_east</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid: Large Map and Image -->
+            <div class="grid lg:grid-cols-12 gap-8 h-[600px]">
+                <!-- Interactive Google Map -->
+                <div class="lg:col-span-7 h-full rounded-[48px] overflow-hidden border border-white/10 shadow-2xl">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.0210217983637!2d106.81222407604588!3d-6.261214061300971!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f36e4f3c706f%3A0xa1427c36a441315e!2sKemang%20Raya!5e0!3m2!1sen!2sid!4v1739095000000!5m2!1sen!2sid"
+                        width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <!-- Large Featured Image -->
+                <div class="lg:col-span-5 h-full">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1200"
+                        alt="Nalu Coffee Kemang Interior"
+                        class="rounded-[48px] h-full w-full object-cover shadow-2xl hover:scale-[1.02] transition-transform duration-700">
+                </div>
+            </div>
+        </div>
+
+        <!-- Decorative Bottom -->
+        <div class="absolute bottom-0 left-0 right-0 h-32 bg-primary/20 backdrop-blur-sm flex items-center">
+            <div class="w-full flex space-x-4 px-4 overflow-hidden opacity-40">
+                <div class="flex-none w-2 h-24 bg-primary -skew-x-12"></div>
+                <div class="flex-none w-2 h-24 bg-primary -skew-x-12"></div>
+                <div class="flex-none w-2 h-24 bg-primary -skew-x-12"></div>
+                <div class="flex-none w-2 h-24 bg-primary -skew-x-12"></div>
+                <div class="flex-none w-2 h-24 bg-primary -skew-x-12"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-deep-charcoal text-white pt-32 pb-12 px-6">
+        <div
+            class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-16 border-b border-white/10 pb-24">
+            <!-- Directory -->
+            <div class="space-y-8">
+                <h4 class="font-bold uppercase tracking-[0.5em] text-primary text-xs">Directory</h4>
+                <div class="flex flex-wrap gap-x-12 gap-y-4 text-gray-400 font-bold text-lg">
+                    <a href="#" class="hover:text-primary transition-colors">Our Story</a>
+                    <a href="#menu" class="hover:text-primary transition-colors">Menu</a>
+                    <a href="#location" class="hover:text-primary transition-colors">Location</a>
+                    <a href="#food" class="hover:text-primary transition-colors">Food</a>
+                </div>
+                <!-- Social Icons -->
+                <div class="flex gap-6">
+                    <a href="#"
+                        class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:border-primary transition-all group">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwv3ozWElavKKVbsREhJvgGSzKR6yY1exD7cmNjXxhcZ_ntNj7ifdw7hSndJGGDCUyGrQ73km5odCL2C-aXL5o5H1oIG5ohyEKOPx4YsvSXLIcSIyky0HSIxcEyEZ5duzV4OG3rS3Oc_EX9KeI-1yno99qgPYxPzYLMD4ED0ifw3Eyk2yX5VcscQKfz2wPjYvt0S8X7AahbLvO4GHFipUY_qqU1uBtJ0vZ2RypeU69JxBwIrAB-jMtP6nyafIbafKDG99PIhc7KGU"
+                            alt="Instagram" class="w-6 h-6 opacity-50 group-hover:opacity-100 invert">
+                    </a>
+                    <a href="#"
+                        class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:border-primary transition-all group">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKSWm76raTyQCgX92KoVlWXUmQ4NbQZ6KdsQj97cfzX1tIQ3kt730-y4qT2_7ze8qrolgLzGzG4mdTUT_-4fLKjWM2FxDbBzec20fxrfcbjVCIAYHS2I8-EsTgv7nc-u2e7fMVd9CscdfnAYf00GoTMnLPiJ86P2KwKNI59RqHD-Wq7-t-e2r6TwnWixEXkMIOotDn_5tE1Hnk3LpXirNPApcBHstKS4ZHj6PPzHnYJbOLLaRwVAdJ_b845Txvq7mU8GSe3EIKUsY"
+                            alt="TikTok" class="w-6 h-6 opacity-50 group-hover:opacity-100 invert">
+                    </a>
+                </div>
+            </div>
+
+            <!-- Logo -->
+            <div class="flex items-center gap-6">
+                <div class="w-24 h-24 border-2 border-primary rounded-full flex items-center justify-center">
+                    <span class="text-6xl italic-bold text-primary">N</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-6xl italic-bold tracking-tighter">NALU</span>
+                    <span class="text-sm uppercase tracking-[0.6em] text-primary font-bold">Coffee Space</span>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-right">
+                <p class="text-gray-500 text-sm max-w-[200px] leading-relaxed">
+                    © 2024 Nalu Coffee & Space. Crafted for the urban wanderer.
+                </p>
+            </div>
+        </div>
+
+        <!-- Bottom Text -->
+        <div class="text-center mt-12">
+            <h5 class="text-3xl italic-bold text-white/5 uppercase tracking-[1.5em]">Experience the Wave</h5>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        if (mobileMenuClose && mobileMenu) {
+            mobileMenuClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+
+        // Close menu when clicking a link
+        if (mobileMenu) {
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+        }
+
+        // Newsletter Form
+        const newsletterForm = document.getElementById('newsletter-form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = e.target.querySelector('input[type="email"]').value;
+                alert(`Thank you! ${email} has been added to the Nalu Inner Circle.`);
+                e.target.reset();
+            });
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        const initAnimations = () => {
+            // Hero Animation
+            const heroTl = gsap.timeline();
+            heroTl.fromTo(".hero-content",
+                { y: 60, autoAlpha: 0 },
+                {
+                    y: 0,
+                    autoAlpha: 1,
+                    duration: 1.5,
+                    ease: "power4.out"
+                }
+            )
+                .fromTo(".hero-ghost",
+                    { scale: 0.9, autoAlpha: 0 },
+                    {
+                        autoAlpha: 0.05,
+                        scale: 1,
+                        duration: 2.5,
+                        ease: "expo.out"
+                    }, 0);
+
+            // Staggered Cards Reveal
+            const staggers = document.querySelectorAll('.gsap-reveal-stagger');
+            staggers.forEach(container => {
+                gsap.fromTo(container.children,
+                    { y: 50, autoAlpha: 0 },
+                    {
+                        scrollTrigger: {
+                            trigger: container,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        },
+                        y: 0,
+                        autoAlpha: 1,
+                        duration: 1,
+                        stagger: 0.15,
+                        ease: "power3.out"
+                    }
+                );
+            });
+
+            // General Reveals (Headers, standalone elements)
+            const reveals = document.querySelectorAll('.gsap-reveal:not(.hero-content)');
+            reveals.forEach(el => {
+                // If it's already inside a stagger container, skip it to avoid double animation
+                if (el.parentElement.classList.contains('gsap-reveal-stagger')) return;
+
+                gsap.fromTo(el,
+                    { y: 40, autoAlpha: 0 },
+                    {
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 90%",
+                            toggleActions: "play none none none"
+                        },
+                        y: 0,
+                        autoAlpha: 1,
+                        duration: 1.2,
+                        ease: "power3.out"
+                    }
+                );
+            });
+
+            // Ghost Text specifically (Parallax effect)
+            const ghosts = document.querySelectorAll('.ghost-text:not(.hero-ghost)');
+            ghosts.forEach(ghost => {
+                gsap.fromTo(ghost,
+                    { autoAlpha: 0, x: -100 },
+                    {
+                        scrollTrigger: {
+                            trigger: ghost,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: 1.5
+                        },
+                        autoAlpha: 0.12,
+                        x: 100,
+                        duration: 3,
+                        ease: "none"
+                    }
+                );
+            });
+
+            ScrollTrigger.refresh();
+        };
+
+        // Marquee Animation
+        const initMarquee = () => {
+            const marquee = document.querySelector('.gsap-marquee');
+            if (!marquee) return;
+
+            // Duplicate content for seamless loop
+            const content = marquee.innerHTML;
+            marquee.innerHTML = content + content + content; // 3 blocks for safety
+
+            gsap.to(marquee, {
+                xPercent: -33.33,
+                repeat: -1,
+                duration: 20,
+                ease: "none",
+                paused: false
+            }).play();
+
+            // Optional: Pause on hover
+            marquee.addEventListener('mouseenter', () => gsap.to(marquee, { timeScale: 0.1, duration: 1 }));
+            marquee.addEventListener('mouseleave', () => gsap.to(marquee, { timeScale: 1, duration: 1 }));
+        };
+
+        // Run on load
+        window.addEventListener('load', () => {
+            initAnimations();
+            initMarquee();
+        });
+        // Refresh on resize
+        window.addEventListener('resize', () => ScrollTrigger.refresh());
+
+        console.log('🌊 Nalu Coffee - Experience the Wave of Flavor with GSAP Staggered');
+    </script>
+</body>
+
+</html>
