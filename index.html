@@ -341,83 +341,38 @@
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;">
             <h2 style="font-size: clamp(28px, 5vw, 42px); font-weight: 800; color: var(--primary-green); margin: 0; max-width: 500px; line-height: 1.1;">Rekomendasi Minuman & Makanan</h2>
             <div class="category-toggle">
-                <button id="toggle-coffee" class="toggle-btn active" title="Coffee"><span class="material-symbols-outlined" style="font-size: 24px;">coffee</span></button>
-                <button id="toggle-food" class="toggle-btn" title="Food"><span class="material-symbols-outlined" style="font-size: 24px;">restaurant</span></button>
+                <button id="toggle-coffee" class="toggle-btn active" title="Minuman Andalan"><span class="material-symbols-outlined" style="font-size: 24px;">coffee</span></button>
             </div>
         </div>
 
-        <!-- Static Product Cards Slider -->
+        <!-- Static Product Cards Slider — 3 Featured Drinks -->
         <div id="product-container" class="hide-scrollbar" style="display: flex; gap: 24px; overflow-x: auto; padding-bottom: 20px; scroll-behavior: smooth;">
-            <!-- Coffee Cards -->
+            <!-- Card 1: Americano -->
             <div class="product-card-v2 active" data-cat="coffee" style="display: flex; flex-direction: column;">
                 <div class="image-box">
-                    <img src="/assets/ice-lychee.png" alt="Ice Lychee Coffee">
-                    <div class="sticker-label">
-                        <div><h4>Ice Lychee Coffee</h4><span>24k</span></div>
-                        <span class="material-symbols-outlined">shopping_bag</span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card-v2 active" data-cat="coffee" style="display: flex; flex-direction: column;">
-                <div class="image-box">
-                    <img src="/assets/ice-klepon.png" alt="Milk Klepon Ice">
-                    <div class="sticker-label">
-                        <div><h4>Milk Klepon Ice</h4><span>24k</span></div>
-                        <span class="material-symbols-outlined">shopping_bag</span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card-v2 active" data-cat="coffee" style="display: flex; flex-direction: column;">
-                <div class="image-box">
-                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=800" alt="Americano">
+                    <img src="https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?auto=format&fit=crop&q=80&w=800" alt="Americano">
                     <div class="sticker-label">
                         <div><h4>Americano</h4><span>18k</span></div>
                         <span class="material-symbols-outlined">shopping_bag</span>
                     </div>
                 </div>
             </div>
+            <!-- Card 2: Americano Orange -->
             <div class="product-card-v2 active" data-cat="coffee" style="display: flex; flex-direction: column;">
                 <div class="image-box">
-                    <img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&q=80&w=800" alt="Special Nalu Latte">
+                    <img src="https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?auto=format&fit=crop&q=80&w=800" alt="Americano Orange">
                     <div class="sticker-label">
-                        <div><h4>Special Nalu Latte</h4><span>28k</span></div>
+                        <div><h4>Americano Orange</h4><span>22k</span></div>
                         <span class="material-symbols-outlined">shopping_bag</span>
                     </div>
                 </div>
             </div>
+            <!-- Card 3: Nalu Signature -->
             <div class="product-card-v2 active" data-cat="coffee" style="display: flex; flex-direction: column;">
                 <div class="image-box">
-                    <img src="https://images.unsplash.com/photo-1515822338988-19886758e15c?auto=format&fit=crop&q=80&w=800" alt="Premium Matcha">
+                    <img src="/assets/milk-coffee.png" alt="Nalu Signature">
                     <div class="sticker-label">
-                        <div><h4>Premium Matcha</h4><span>22k</span></div>
-                        <span class="material-symbols-outlined">shopping_bag</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Food Cards -->
-            <div class="product-card-v2" data-cat="food" style="display: none; flex-direction: column;">
-                <div class="image-box">
-                    <img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&q=80&w=800" alt="French Fries">
-                    <div class="sticker-label">
-                        <div><h4>French Fries</h4><span>18k</span></div>
-                        <span class="material-symbols-outlined">shopping_bag</span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card-v2" data-cat="food" style="display: none; flex-direction: column;">
-                <div class="image-box">
-                    <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&q=80&w=800" alt="Banana Cake">
-                    <div class="sticker-label">
-                        <div><h4>Banana Cake</h4><span>17k</span></div>
-                        <span class="material-symbols-outlined">shopping_bag</span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card-v2" data-cat="food" style="display: none; flex-direction: column;">
-                <div class="image-box">
-                    <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&q=80&w=800" alt="Sweet Cookies">
-                    <div class="sticker-label">
-                        <div><h4>Sweet Cookies</h4><span>15k</span></div>
+                        <div><h4>Nalu Signature</h4><span>Espresso • Fresh Milk • Aren Sugar</span></div>
                         <span class="material-symbols-outlined">shopping_bag</span>
                     </div>
                 </div>
