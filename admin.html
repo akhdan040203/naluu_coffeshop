@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nalu Coffee - Admin Panel</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1" />
+    <style>
+        :root {
+            --green: #064E3B;
+            --orange: #fb923c;
+            --cream: #F4F0EB;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--cream);
+            color: #111827;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        #loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--cream);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(6, 78, 59, 0.1);
+            border-top-color: var(--green);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-orange {
+            background: var(--orange);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+            padding: 8px 14px;
+            font-size: 12px;
+            border-radius: 8px;
+        }
+
+        .btn-edit {
+            background: #3B82F6;
+            color: white;
+            padding: 8px 14px;
+            font-size: 12px;
+            border-radius: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #D1D5DB;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: 0.3s;
+            background: #FAFAF9;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(6, 78, 59, 0.1);
+        }
+
+        /* LOGIN */
+        #login-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #064E3B 0%, #0a7c5f 100%);
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px 32px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-box h1 {
+            color: var(--green);
+            font-weight: 800;
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .login-box .subtitle {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            font-size: 13px;
+            color: #374151;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        /* DASHBOARD */
+        #dashboard-section {
+            min-height: 100vh;
+        }
+
+        .admin-topbar {
+            background: var(--green);
+            color: white;
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .admin-topbar h1 {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .admin-topbar p {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .admin-content {
+            padding: 24px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Stats */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .stat-card .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: #9CA3AF;
+            margin-top: 4px;
+        }
+
+        /* Panel */
+        .panel-card {
+            background: white;
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            margin-bottom: 24px;
+        }
+
+        .panel-card h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--green);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 24px;
+        }
+
+        /* Table */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 14px;
+            background: #F9FAFB;
+            font-size: 12px;
+            font-weight: 700;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #F3F4F6;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .prod-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .cat-badge {
+            background: #F0FDF4;
+            color: var(--green);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .cat-badge.food {
+            background: #FFF7ED;
+            color: var(--orange);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        /* Upload bar */
+        .upload-bar {
+            background: #ECFDF5;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            color: var(--green);
+            font-weight: 600;
+            display: none;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        /* EDIT MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-box h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--green);
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            table {
+                min-width: 520px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stat-card {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 16px 20px;
+            }
+
+            .stat-card .stat-value {
+                font-size: 24px;
+            }
+
+            .admin-topbar {
+                padding: 12px 12px;
+                gap: 8px;
+            }
+
+            .admin-topbar h1 {
+                font-size: 14px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .admin-content {
+                padding: 12px 12px;
+            }
+            .panel-card {
+                padding: 20px 12px;
+                margin-bottom: 16px;
+                border-radius: 16px;
+            }
+            .login-box {
+                padding: 32px 16px;
+            }
+
+            .modal-box {
+                padding: 24px 20px;
+            }
+
+            .inner-form-grid {
+                grid-template-columns: 1fr !important;
+                gap: 0 !important;
+            }
+
+            #add-category-form {
+                flex-direction: column !important;
+            }
+
+            #add-category-form button {
+                width: 100% !important;
+            }
+
+            table {
+                min-width: 380px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; font-weight: 700; color: var(--green); font-size: 14px;">Memverifikasi akses...</p>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="login-section" class="hidden">
+        <div class="login-box">
+            <h1>🔒 Nalu Admin</h1>
+            <p class="subtitle">Masukkan kunci akses untuk mengelola menu.</p>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Email Akses</label>
+                    <input type="email" id="email" class="input-field" required placeholder="admin@nalu.com">
+                </div>
+                <div class="form-group">
+                    <label>Sandi Rahasia</label>
+                    <input type="password" id="password" class="input-field" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px; padding: 14px;">MASUK
+                    BRANKAS</button>
+            </form>
+            <p id="login-error" style="color: var(--danger); font-size: 13px; margin-top: 16px; display: none;"></p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard-section" class="hidden">
+        <div class="admin-topbar">
+            <div>
+                <h1>☕ Nalu Control Panel</h1>
+            </div>
+            <button id="logout-btn" class="btn"
+                style="background: rgba(255,255,255,0.15); color: white; font-size: 13px; padding: 10px 20px;">Keluar</button>
+        </div>
+
+        <div class="admin-content">
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-value" id="stat-total">0</div>
+                        <div class="stat-label">Total Menu</div>
+                    </div>
+                    <span class="material-symbols-outlined"
+                        style="font-size: 32px; color: #D1D5DB;">restaurant_menu</span>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-value" id="stat-coffee">0</div>
+                        <div class="stat-label">Minuman</div>
+                    </div>
+                    <span class="material-symbols-outlined" style="font-size: 32px; color: #D1D5DB;">coffee</span>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-value" id="stat-food">0</div>
+                        <div class="stat-label">Makanan</div>
+                    </div>
+                    <span class="material-symbols-outlined" style="font-size: 32px; color: #D1D5DB;">lunch_dining</span>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- ADD MENU FORM -->
+                <div class="panel-card" style="height: fit-content;">
+                    <h2><span class="material-symbols-outlined">add_circle</span> Tambah Menu</h2>
+                    <form id="add-menu-form">
+                        <div class="form-group">
+                            <label>Nama Menu</label>
+                            <input type="text" id="m-name" class="input-field" required
+                                placeholder="Contoh: Kopi Susu Aren">
+                        </div>
+                        <div class="form-group">
+                            <label>Harga</label>
+                            <input type="text" id="m-price" class="input-field" required placeholder="Rp 22.000">
+                        </div>
+                        <div class="form-group">
+                            <label>Deskripsi Singkat</label>
+                            <input type="text" id="m-desc" class="input-field" placeholder="Contoh: Espresso with fresh milk">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="inner-form-grid">
+                            <div class="form-group">
+                                <label>Tab Filter</label>
+                                <select id="m-category" class="input-field" required>
+                                    <option value="coffee">☕ Coffee</option>
+                                    <option value="food">🍽️ Food</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Kolom Full Menu</label>
+                                <select id="m-full-category" class="input-field category-dropdown" required>
+                                    <!-- Options populated from Firestore -->
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;" id="btn-save">SIMPAN KE
+                            DATABASE</button>
+                    </form>
+
+                    <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+                        <h2 style="font-size: 16px;"><span class="material-symbols-outlined">category</span> Kelola
+                            Kategori</h2>
+                        <form id="add-category-form" style="display: flex; gap: 8px; margin-top: 10px;">
+                            <input type="text" id="new-cat-name" class="input-field" placeholder="Nama Kategori Baru"
+                                required style="padding: 10px;">
+                            <button type="submit" class="btn btn-primary" style="padding: 10px 15px;">Tambah</button>
+                        </form>
+                        <div id="category-list" style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
+                            <!-- Category items populate here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABLE -->
+                <div class="panel-card">
+                    <h2><span class="material-symbols-outlined">list_alt</span> Live Menu</h2>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Menu</th>
+                                    <th>Harga</th>
+                                    <th>Kategori</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="menu-table-body">
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 40px 0; color: #9CA3AF;">Memuat
+                                        data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div id="edit-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <h2>✏️ Edit Menu</h2>
+            <form id="edit-form">
+                <input type="hidden" id="edit-id">
+                <div class="form-group">
+                    <label>Nama Menu</label>
+                    <input type="text" id="edit-name" class="input-field" required>
+                </div>
+                <div class="form-group">
+                    <label>Harga</label>
+                    <input type="text" id="edit-price" class="input-field" required>
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Singkat</label>
+                    <input type="text" id="edit-desc" class="input-field">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;" class="inner-form-grid">
+                    <div class="form-group">
+                        <label>Tab Kategori</label>
+                        <select id="edit-category" class="input-field" required>
+                            <option value="coffee">☕ Coffee</option>
+                            <option value="food">🍽️ Food</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kolom Full Menu</label>
+                        <select id="edit-full-category" class="input-field category-dropdown" required>
+                            <!-- Dynamic -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn" id="cancel-edit"
+                        style="background: #E5E7EB; color: #374151;">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="/src/admin.js"></script>
+</body>
+
+</html>
