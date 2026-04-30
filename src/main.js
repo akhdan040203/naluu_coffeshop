@@ -39,8 +39,36 @@ updateNavbar();
 // 2. MOBILE MENU TOGGLE
 // ==========================================
 if (hamburgerBtn && mobileMenu) {
-    hamburgerBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
-    closeBtn.addEventListener('click', () => mobileMenu.classList.remove('active'));
+    const syncNavbarForMenu = () => {
+        const isOpen = mobileMenu.classList.contains('active');
+        if (isOpen) {
+            navbar.style.background = 'rgba(252, 246, 240, 0.98)';
+            navbar.style.backdropFilter = 'blur(10px)';
+            navbar.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+            navLinks.forEach((link) => { link.style.color = '#111827'; });
+            hamburgerBtn.style.background = '#064E3B';
+            hamburgerBtn.querySelector('span').style.color = 'white';
+            return;
+        }
+        updateNavbar();
+    };
+
+    const toggleMobileMenu = () => {
+        mobileMenu.classList.toggle('active');
+        syncNavbarForMenu();
+    };
+    const closeMobileMenu = () => {
+        mobileMenu.classList.remove('active');
+        syncNavbarForMenu();
+    };
+
+    hamburgerBtn.addEventListener('click', toggleMobileMenu);
+    if (closeBtn) closeBtn.addEventListener('click', closeMobileMenu);
+
+    // Auto-close menu after selecting a nav link on mobile.
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', closeMobileMenu);
+    });
 }
 
 // ==========================================

@@ -35,10 +35,14 @@
     </nav>
 
     <div id="mobile-menu">
-        <div id="close-menu" style="position: absolute; top: 30px; right: 30px; cursor: pointer;"><span class="material-symbols-outlined" style="font-size: 32px; color: var(--primary-green);">close</span></div>
+        <div id="close-menu" style="position: absolute; top: 12px; right: 16px; cursor: pointer;"><span class="material-symbols-outlined" style="font-size: 30px; color: var(--primary-green);">close</span></div>
         <a href="#home" style="display:block; text-decoration: none; color: var(--text-dark); font-size: 24px; font-weight: 800; margin-bottom: 24px;">HOME</a>
         <a href="#story" style="display:block; text-decoration: none; color: var(--text-dark); font-size: 24px; font-weight: 800; margin-bottom: 24px;">STORY</a>
         <a href="#full-menu" style="display:block; text-decoration: none; color: var(--text-dark); font-size: 24px; font-weight: 800; margin-bottom: 24px;">MENU</a>
+        <div style="display: flex; align-items: center; gap: 18px; margin-top: 6px;">
+            <a href="https://www.instagram.com/nalucoffeeandspace/" target="_blank" rel="noopener noreferrer" style="display:inline-block; text-decoration: underline; text-underline-offset: 4px; color: var(--primary-green); font-size: 20px; font-weight: 700;">INSTAGRAM</a>
+            <a href="https://www.tiktok.com/@nalucoffeeandspace" target="_blank" rel="noopener noreferrer" style="display:inline-block; text-decoration: underline; text-underline-offset: 4px; color: var(--primary-green); font-size: 20px; font-weight: 700;">TIKTOK</a>
+        </div>
     </div>
 
     <!-- ============ HERO ============ -->
@@ -52,7 +56,7 @@
                 <span style="font-weight: 400; font-size: 0.9em;">&</span> 
                 <span>Space</span>
             </h1>
-            <p class="hero-kicker">Crafted Coffee <span style="color: var(--accent-orange);">•</span> Traditional Soul</p>
+            <p class="hero-kicker">CULTURE COFFEE <span style="color: var(--accent-orange);">•</span> CHILLING SPACE</p>
         </div>
     </section>
 
@@ -63,6 +67,7 @@
             <h2 style="font-size: clamp(28px, 5vw, 42px); font-weight: 800; color: var(--primary-green); margin: 0; max-width: 500px; line-height: 1.1;">Rekomendasi Minuman & Makanan</h2>
             <div class="category-toggle">
                 <button id="toggle-coffee" class="toggle-btn active" title="Minuman Andalan"><span class="material-symbols-outlined" style="font-size: 24px;">coffee</span></button>
+                <button id="toggle-food" class="toggle-btn" title="Makanan"><span class="material-symbols-outlined" style="font-size: 24px;">restaurant</span></button>
             </div>
         </div>
 
@@ -118,6 +123,15 @@
                     </div>
                 </div>
             </div>
+            <!-- Eat Tab: Coming Soon -->
+            <div class="product-card-v2" data-cat="food" style="display: none; flex-direction: column;">
+                <div class="image-box coming-soon-card">
+                    <div class="coming-soon-copy">
+                        <span class="coming-soon-badge">EAT</span>
+                        <h4>Coming Soon</h4>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- Slider Navigation -->
         <div style="display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 30px;">
@@ -137,8 +151,8 @@
             </div>
             <img src="/assets/hand-coffee.png" class="hand-img-v10" alt="Collage Hand">
             <div class="feel-desc-v10">
-                <p>Rasa racikan tangan di Nalucoffee&Space, kami menyajikan kopi dan makanan yang terbuat dari bahan-bahan berkualitas. Terletak di pusat jalancagak Subang.</p>
-                <a href="#" style="display: inline-block; padding: 15px 45px; border: 1.5px solid var(--primary-green); color: var(--primary-green); border-radius: 999px; text-decoration: none; font-weight: 800; text-transform: uppercase; font-size: 13px;">Find Us</a>
+                <p>Naluu Coffee & Space menghadirkan coffee shop dengan konsep kalcer yang nyaman, sejuk, dan menenangkan. Menyajikan kopi serta hidangan berkualitas di pusat Jalancagak, Subang, tempat sempurna untuk bersantai dan berkumpul.</p>
+                <a href="https://www.instagram.com/nalucoffeeandspace/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 15px 45px; border: 1.5px solid var(--primary-green); color: var(--primary-green); border-radius: 999px; text-decoration: none; font-weight: 800; text-transform: uppercase; font-size: 13px;">Find Us</a>
             </div>
         </div>
     </section>
@@ -147,7 +161,7 @@
     <section id="relax" class="relax-section" style="display: flex; align-items: center; justify-content: center; text-align: center;">
         <img src="/assets/relaxing.jpg" class="relax-img" alt="Relaxing with Coffee and Pastry">
         <div style="position: relative; z-index: 10; width: 90%; max-width: 1000px; padding: 20px;">
-            <h2 style="font-size: clamp(2.5rem, 9vw, 92px); font-weight: 850; color: white; line-height: 0.95; letter-spacing: -0.04em; text-transform: none; text-shadow: 0 4px 30px rgba(0,0,0,0.8);">Relaxing in Nalucoffee&Space with the perfect blend of drink and eat</h2>
+            <h2 class="relax-title">Relaxing in Nalu coffee&Space with the perfect <br> blend of drink and eat</h2>
         </div>
     </section>
 
@@ -186,10 +200,10 @@
                         <span class="material-symbols-outlined" style="color: var(--accent-orange); font-size: 32px;">schedule</span>
                         <div>
                             <h4 style="margin: 0 0 8px; color: var(--primary-green); font-size: 18px;">Open Hours</h4>
-                            <p style="margin: 0; opacity: 0.7; line-height: 1.6;">Mon - Sun • 10:00 AM - 22:00 PM</p>
+                            <p style="margin: 0; opacity: 0.7; line-height: 1.6;">Mon - Sun • 11.00 - 22.00</p>
                         </div>
                     </div>
-                    <a href="https://maps.google.com" target="_blank" style="display: block; width: fit-content; text-align: center; padding: 12px 35px; background: var(--accent-orange); color: white; text-decoration: none; border-radius: 999px; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin: 20px auto 15px; box-shadow: 0 4px 15px rgba(251, 146, 60, 0.25);">Open in Google Maps</a>
+                    <a href="https://maps.app.goo.gl/UxVSTNTzdACMPaVy7" target="_blank" rel="noopener noreferrer" style="display: block; width: fit-content; text-align: center; padding: 12px 35px; background: var(--accent-orange); color: white; text-decoration: none; border-radius: 999px; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin: 20px auto 15px; box-shadow: 0 4px 15px rgba(251, 146, 60, 0.25);">Open in Google Maps</a>
                 </div>
                 <div class="map-container" style="border-radius: 20px; overflow: hidden; height: 450px; background: #eee;">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15854.735165134762!2d107.6715053!3d-6.623432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68ddc031c50e05%3A0xc6e469375e2d5c31!2sJalancagak%2C%20Subang%20Regency%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1711184000000!5m2!1sen!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -206,13 +220,25 @@
                     <img src="/assets/Logoo.jpg" alt="Nalu Coffee" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
                     <h3 style="font-weight: 800; font-size: 24px; color: var(--accent-orange); margin: 0;">NALU COFFEE</h3>
                 </div>
-                <p style="opacity: 0.8; font-size: 14px;">Experience the finest coffee craft in Jalancagak with the spirit of Subang heritage.</p>
+                <p style="opacity: 0.8; font-size: 14px;">Experience relaxing and drinking the best coffee at the Kalcer coffee shop on Jalancagak, Subang</p>
             </div>
             <div>
                 <h4 style="font-size: 14px; margin-bottom: 24px;">Social</h4>
-                <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; opacity: 0.6;">
-                    <span>Instagram</span>
-                    <span>Twitter</span>
+                <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
+                    <a href="https://www.instagram.com/nalucoffeeandspace/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.78); text-decoration: none;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="2"></rect>
+                            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="2"></circle>
+                            <circle cx="18" cy="6.5" r="1.2" fill="currentColor"></circle>
+                        </svg>
+                        <span>Instagram</span>
+                    </a>
+                    <a href="https://www.tiktok.com/@nalucoffeeandspace" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.78); text-decoration: none;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M14 3v8.2a3.8 3.8 0 1 0 2.6 3.6V8.2c1 .9 2.3 1.5 3.8 1.6V7.2c-1.7-.3-3.2-1.4-3.8-3.2H14Z" fill="currentColor"></path>
+                        </svg>
+                        <span>TikTok</span>
+                    </a>
                 </div>
             </div>
             <div>
