@@ -379,47 +379,57 @@
 
         @media (max-width: 768px) {
             .stats-row {
-                grid-template-columns: 1fr;
-                gap: 12px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
 
             .stat-card {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 16px 20px;
+                padding: 12px;
+                border-radius: 12px;
             }
 
             .stat-card .stat-value {
-                font-size: 24px;
+                font-size: 20px;
+            }
+
+            .stat-card .stat-label {
+                font-size: 11px;
+            }
+
+            .stat-card .material-symbols-outlined {
+                font-size: 24px !important;
             }
 
             .admin-topbar {
-                padding: 12px 12px;
-                gap: 8px;
+                padding: 12px 16px;
             }
 
             .admin-topbar h1 {
-                font-size: 14px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                font-size: 15px;
             }
 
             .admin-content {
-                padding: 12px 12px;
+                padding: 16px 12px;
             }
+
             .panel-card {
-                padding: 20px 12px;
+                padding: 16px;
                 margin-bottom: 16px;
                 border-radius: 16px;
             }
+
+            .panel-card h2 {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+
             .login-box {
-                padding: 32px 16px;
+                padding: 30px 20px;
             }
 
             .modal-box {
-                padding: 24px 20px;
+                padding: 20px;
+                width: 95%;
             }
 
             .inner-form-grid {
@@ -435,8 +445,54 @@
                 width: 100% !important;
             }
 
+            /* Table Responsive Fix */
+            .table-wrapper {
+                margin: 0 -16px;
+                padding: 0 16px;
+                width: calc(100% + 32px);
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                display: block; /* Ensure it behaves as a block for scrolling */
+            }
+
             table {
-                min-width: 380px;
+                min-width: 550px; /* Increased to ensure all buttons fit without being squashed */
+                width: 100%;
+            }
+
+            th, td {
+                padding: 12px 10px;
+                font-size: 13px;
+            }
+
+            th:last-child, td:last-child {
+                padding-right: 20px; /* Extra room for the last button */
+                text-align: right;
+            }
+
+            .action-btns {
+                gap: 8px;
+                justify-content: flex-end;
+                white-space: nowrap; /* Prevent buttons from wrapping */
+            }
+
+            .btn-edit, .btn-danger {
+                padding: 8px 12px;
+                font-size: 12px;
+                display: inline-block;
+                min-width: 60px;
+                text-align: center;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 400px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-topbar h1 {
+                font-size: 13px;
             }
         }
     </style>
