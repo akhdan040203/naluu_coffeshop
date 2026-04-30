@@ -190,7 +190,7 @@ function loadMenuRealtime() {
             tr.innerHTML = `
                 <td><div style="font-weight:800;">${d.name}</div><div style="font-size:11px;color:#999;">${d.fullCategory || ''}</div></td>
                 <td style="color:var(--green);font-weight:800;">${d.price}</td>
-                <td><span class="cat-badge ${d.category === 'food' ? 'food' : ''}">${d.category === 'coffee' ? '☕ Coffee' : '🍽️ Food'}</span></td>
+                <td><span class="cat-badge ${d.category === 'food' ? 'food' : ''}">${d.category === 'coffee' ? '☕ Drink' : '🍽️ Eat'}</span></td>
                 <td>
                     <div class="action-btns">
                         <button class="btn btn-edit edit-btn" data-id="${docSnap.id}" data-json='${JSON.stringify(d).replace(/'/g, "&apos;")}'>Edit</button>
